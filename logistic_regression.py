@@ -54,18 +54,18 @@ for iter in range(max_iter):
     w_old = w
     w = w - eta*grad_e.T
 
-    if 1:
-        # Plot current separator and data
-        plt.figure(1)
-        plt.clf()
-        plt.rcParams['font.size']=20
-        plt.plot(X1[:,0],X1[:,1],'g.')
-        plt.plot(X2[:,0],X2[:,1],'b.')
-        drawSep(plt,w)
-        plt.title('Separator in data space')
-        plt.axis([-5,15,-10,10])
-        plt.draw()
-        plt.pause(1e-17)
+    # if 1:
+    #     # Plot current separator and data
+    #     plt.figure(1)
+    #     plt.clf()
+    #     plt.rcParams['font.size']=20
+    #     plt.plot(X1[:,0],X1[:,1],'g.')
+    #     plt.plot(X2[:,0],X2[:,1],'b.')
+    #     drawSep(plt,w)
+    #     plt.title('Separator in data space')
+    #     plt.axis([-5,15,-10,10])
+    #     plt.draw()
+    #     plt.pause(1e-17)
 
     # Add next step of separator in m-b space
     plt.figure(2)
