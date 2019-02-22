@@ -9,8 +9,8 @@ max_iter = 500
 tol = 0.01
 
 # Step size for gradient descent
-# eta = 0.003
-eta = 0.001 # fix by decreasing the size of eta
+eta = 0.003
+# eta = 0.001 # fix by decreasing the size of eta
 # Get X1,X2
 data=loadmat('data.mat')
 # print(data)
@@ -49,7 +49,7 @@ for iter in range(max_iter):
 
     # Gradient of the error, using Eqn 4.91
     grad_e = np.sum((y-t)*X, 0, keepdims=True) # 1-by-3
-          
+    grad_e = grad_e - 0.1 * w
     # Update w, *subtracking* a step in the error derivative since we are minimizing
     w_old = w
     w = w - eta*grad_e.T
