@@ -37,19 +37,20 @@ plt.ylabel('intercept')
 plt.axis([-5, 5, -10, 0])
 
 for iter in range(max_iter):
+    y_all = np.zeros((200, 1))
+    w_old = w
     for i in range(X.shape[0]):
         # Compute output using current w on all data X.
-        y = sigmoid(w.T @ X[i, :])
+        y_all[i] = sigmoid(w.T @ X[i, :])
 
         # Gradient of the error, using Eqn 4.91
-        grad_e = ((y - t[i]) * X[i, :])  # 1-by-3
+        grad_e = ((y_all[i] - t[i]) * X[i, :])  # 1-by-3
 
         # Update w, *subtracking* a step in the error derivative since we are minimizing
-        w_old = w
         w = w - eta * grad_e.T
 
     # e is the rror, negative log-likelihood
-    e = -np.sum(t * np.log(y) + (1 - t) * np.log(1 - y))
+    e = -np.sum(t * np.log(y_all) + (1 - t) * np.log(1 - y_all))
     # Add this error to the end of error vector
     e_all = np.append(e_all, e)
     if 1:
