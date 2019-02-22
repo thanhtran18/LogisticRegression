@@ -44,6 +44,7 @@ plt.axis([-5, 5, -10, 0])
 
 for lam_index in range(0, len(lambdas)):
     w_sums.append(0)
+    e_sums.append(0)
     print("*********************")
     for iter in range(max_iter):
 
@@ -51,13 +52,14 @@ for lam_index in range(0, len(lambdas)):
         y = sigmoid(w.T @ X.T).T
 
         # e is the rror, negative log-likelihood
-        e = -np.sum(t * np.log(y) + (1 - t) * np.log(1 - y)) - (lambdas[lam_index]/2) * np.linalg.norm(w)**2
+        e = -np.sum(t * np.log(y) + (1 - t) * np.log(1 - y)) - (lambdas[lam_index]) * np.linalg.norm(w)**2
 
         # Add this error to the end of error vector
         e_all = np.append(e_all, e)
 
         # Gradient of the error, using Eqn 4.91
-        grad_e = np.sum((y - t) * X, 0, keepdims=True)  # 1-by-3
+        grad_e = np.sum((y - t) * X, 0, keepdims=True) - (lambdas[lam_index]) * np.linalg.norm(w) ** 2   # 1-by-3
+        # grad_e = np.sum((y - t) * X) - (lambdas[lam_index]/2) * np.linalg.norm(w) ** 2
 
         # Update w, *subtracking* a step in the error derivative since we are minimizing
         w_old = w
@@ -89,10 +91,16 @@ for lam_index in range(0, len(lambdas)):
         # Stop iterating if error does not change more than tol
         if iter > 0:
             if abs(e - e_all[iter - 1]) < tol:
+                w_sums[lam_index] = w_sums[lam_index] + np.linalg.norm(w)
+                e_sums[lam_index] = e_sums[lam_index] + e
                 break
-    w_sums[lam_index] = w_sums[lam_index] + np.linalg.norm(w)
+        if iter == 499:
+            w_sums[lam_index] = w_sums[lam_index] + np.linalg.norm(w)
+            e_sums[lam_index] = e_sums[lam_index] + e
+
 
 print(w_sums)
+print(e_sums)
 # Plot error over iterations
 plt.figure(3)
 plt.rcParams['font.size'] = 20
